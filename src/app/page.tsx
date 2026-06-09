@@ -1,65 +1,61 @@
-import Image from "next/image";
+import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
+import TodoForm from './components/TodoForm'
+import TodoItem from './components/TodoItem'
+import { signOutAction } from './actions'
+import type { Todo } from '@/lib/store'
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
+  const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
+  const { data: todos } = await supabase
+    .from('todos')
+    .select('*')
+    .or(`completed.eq.false,completed_at.gt.${cutoff}`)
+    .order('created_at', { ascending: false })
+
+  const allTodos = (todos ?? []) as Todo[]
+  const completed = allTodos.filter((t) => t.completed).length
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 py-12 px-4">
+      <div className="max-w-lg mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-white mb-1">Todo App</h1>
+          <p className="text-white/40 text-sm">{user.email}</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="bg-white/10 backdrop-blur-xl border border-white/15 rounded-3xl p-6 space-y-5 shadow-2xl">
+          <TodoForm />
+
+          {allTodos.length > 0 && (
+            <div className="flex items-center justify-between text-xs text-white/40 px-1">
+              <span>{allTodos.length} tasks</span>
+              <span>{completed}/{allTodos.length} completed</span>
+            </div>
+          )}
+
+          <div className="space-y-2">
+            {allTodos.length === 0 ? (
+              <div className="text-center py-10 text-white/30">
+                <p className="text-3xl mb-2">📝</p>
+                <p>No todos yet. Add your first one!</p>
+              </div>
+            ) : (
+              allTodos.map((todo) => <TodoItem key={todo.id} todo={todo} />)
+            )}
+          </div>
         </div>
-      </main>
-    </div>
-  );
+
+        <form action={signOutAction} className="mt-4 text-center">
+          <button type="submit" className="text-xs text-white/30 hover:text-white/60 underline transition-colors">
+            Sign out
+          </button>
+        </form>
+      </div>
+    </main>
+  )
 }
