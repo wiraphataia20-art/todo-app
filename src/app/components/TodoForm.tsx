@@ -30,12 +30,12 @@ export default function TodoForm() {
           type="text"
           placeholder="Add a new todo..."
           required
-          className="flex-1 px-4 py-2.5 bg-white/10 border border-white/20 text-white placeholder:text-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/15 transition-all"
+          className="flex-1 min-w-0 px-4 py-3 bg-white/10 border border-white/20 text-white placeholder:text-white/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/15 transition-all text-base"
         />
         <button
           type="button"
           onClick={() => setShowOptions(!showOptions)}
-          className="px-3 py-2 bg-white/10 border border-white/20 text-white/50 hover:bg-white/20 rounded-xl transition-all text-sm"
+          className="px-3 py-3 bg-white/10 border border-white/20 text-white/50 hover:bg-white/20 rounded-xl transition-all text-base flex-shrink-0"
           title="More options"
         >
           ⚙️
@@ -43,20 +43,20 @@ export default function TodoForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="px-5 py-2 bg-white/20 hover:bg-white/30 border border-white/25 text-white rounded-xl disabled:opacity-40 transition-all font-medium"
+          className="px-4 py-3 bg-white/20 hover:bg-white/30 border border-white/25 text-white rounded-xl disabled:opacity-40 transition-all font-medium flex-shrink-0"
         >
           {isPending ? '...' : 'Add'}
         </button>
       </div>
 
       {showOptions && (
-        <div className="grid grid-cols-3 gap-2 p-3 bg-white/5 border border-white/10 rounded-xl">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3 bg-white/5 border border-white/10 rounded-xl">
           <div className="flex flex-col gap-1">
             <label className="text-xs text-white/40">Due date</label>
             <input
               name="due_date"
               type="date"
-              className="px-2 py-1.5 bg-white/10 border border-white/20 text-white rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-white/30"
+              className="px-3 py-2.5 bg-white/10 border border-white/20 text-white rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-white/30 w-full"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -64,7 +64,7 @@ export default function TodoForm() {
             <select
               name="category"
               defaultValue="General"
-              className="px-2 py-1.5 bg-white/10 border border-white/20 text-white rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-white/30"
+              className="px-3 py-2.5 bg-white/10 border border-white/20 text-white rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-white/30 w-full"
             >
               {CATEGORIES.map((c) => (
                 <option key={c} value={c} className="bg-gray-800">{c}</option>
@@ -76,7 +76,7 @@ export default function TodoForm() {
             <select
               name="priority"
               defaultValue="medium"
-              className="px-2 py-1.5 bg-white/10 border border-white/20 text-white rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-white/30"
+              className="px-3 py-2.5 bg-white/10 border border-white/20 text-white rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-white/30 w-full"
             >
               <option value="high" className="bg-gray-800">High 🔴</option>
               <option value="medium" className="bg-gray-800">Medium 🟡</option>

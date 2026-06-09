@@ -39,7 +39,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
       <button
         onClick={() => startTransition(() => toggleTodoAction(todo.id))}
         disabled={isPending}
-        className={`mt-0.5 w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
+        className={`mt-0.5 w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
           todo.completed ? 'bg-green-500 border-green-500' : 'border-white/40 hover:border-white/70'
         }`}
       >
@@ -80,7 +80,7 @@ export default function TodoItem({ todo }: { todo: Todo }) {
       <button
         onClick={() => startTransition(() => deleteTodoAction(todo.id))}
         disabled={isPending}
-        className="text-white/20 hover:text-red-400 transition-colors p-1 rounded flex-shrink-0"
+        className="text-white/20 hover:text-red-400 transition-colors p-2 -mr-1 rounded flex-shrink-0"
       >
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

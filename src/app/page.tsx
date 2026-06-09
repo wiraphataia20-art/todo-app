@@ -21,14 +21,14 @@ export default async function Home() {
   const completed = allTodos.filter((t) => t.completed).length
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 py-12 px-4">
+    <main className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 py-8 sm:py-12 px-4">
       <div className="max-w-lg mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-1">Todo App</h1>
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-1">Todo App</h1>
           <p className="text-white/40 text-sm">{user.email}</p>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-xl border border-white/15 rounded-3xl p-6 space-y-5 shadow-2xl">
+        <div className="bg-white/10 backdrop-blur-xl border border-white/15 rounded-3xl p-4 sm:p-6 space-y-5 shadow-2xl">
           <TodoForm />
 
           {allTodos.length > 0 && (
