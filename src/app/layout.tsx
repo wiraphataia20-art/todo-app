@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Todo App",
   description: "Next.js 16 Todo App with Server Actions",
+  icons: {
+    icon: "/logo todo app.png",
+  },
 };
 
 export default function RootLayout({
