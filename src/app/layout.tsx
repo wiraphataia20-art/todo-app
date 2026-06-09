@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Todo App",
   description: "Next.js 16 Todo App with Server Actions",
   icons: {
-    icon: "/logo_todo-app.png",
+    icon: "/icon.png",
   },
 };
 
